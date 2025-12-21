@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Information - NUST Sports Complex</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #3498db;
+        }
+        
+        .radio-option label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        
+        .textarea-container {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .textarea-container.show {
+            display: block;
+        }
+        
+        .textarea-container textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ecf0f1;
+            border-radius: 6px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s;
+        }
+        
+        .textarea-container textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+        
+        .help-text {
+            color: #95a5a6;
+            font-size: 13px;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+        
+        .btn-cancel {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        
+        .btn-cancel:hover {
+            background: #bdc3c7;
+        }
+        
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+        }
+        
+        .info-box p {
+            color: #2c3e50;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .error-message {
+            background: #fadbd8;
+            color: #c0392b;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💊 Medical Information</h1>
+            <p>Complete your health profile to get started</p>
+        </div>
+        
+        {% if error %}
+            <div class="error-message">
+                ⚠️ {{ error }}
+            </div>
+        {% endif %}
+        
+        <div class="info-box">
+            <p>Welcome, <strong>{{ user.full_name }}</strong>! We need to know about any medical conditions or allergies to ensure your safety while using our facilities.</p>
+        </div>
+        
+        <form method="POST" action="/medical_info">
+            <div class="form-group">
+                <label>Do you have any allergies, medication requirements, or medical conditions?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="yes" name="has_conditions" value="yes" onchange="toggleTextarea()">
+                        <label for="yes">Yes</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="no" name="has_conditions" value="no" onchange="toggleTextarea()" checked>
+                        <label for="no">No</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="textarea-wrapper" class="textarea-container">
+                <label for="medical_info">Please describe your allergies, medications, or medical conditions:</label>
+                <textarea 
+                    id="medical_info" 
+                    name="medical_info" 
+                    placeholder="E.g., Allergic to penicillin, asthma, hypertension, latex allergy, etc."
+                ></textarea>
+                <div class="help-text">
+                    ✓ This information is kept confidential and used only for safety purposes<br>
+                    ✓ You can update this information anytime from your dashboard
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" name="skip" value="true" class="btn btn-cancel">Skip</button>
+                <button type="submit" class="btn btn-submit">Continue to Dashboard</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        function toggleTextarea() {
+            const yes = document.getElementById('yes');
+            const textareaWrapper = document.getElementById('textarea-wrapper');
+            const medicalInfo = document.getElementById('medical_info');
+            
+            if (yes.checked) {
+                textareaWrapper.classList.add('show');
+            } else {
+                textareaWrapper.classList.remove('show');
+                medicalInfo.value = '';
+            }
+        }
+    </script>
+</body>
+</html>

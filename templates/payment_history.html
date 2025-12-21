@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment History - NUST Sports Complex</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar h1 {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            margin-bottom: 30px;
+        }
+        
+        .header h2 {
+            color: #2c3e50;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .user-info {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+        
+        .user-info p {
+            color: #2c3e50;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .user-info strong {
+            color: #e74c3c;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7f8c8d;
+        }
+        
+        .empty-message p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 6px;
+            border: 1px solid #ecf0f1;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 14px;
+        }
+        
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .payment-type {
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: inline-block;
+        }
+        
+        .type-membership {
+            background: #d5f4e6;
+            color: #27ae60;
+        }
+        
+        .type-facility {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .amount {
+            color: #27ae60;
+            font-weight: 600;
+        }
+        
+        .transaction-id {
+            background: #f5f5f5;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        
+        .summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 30px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .summary h3 {
+            color: #2c3e50;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            color: #2c3e50;
+            font-size: 14px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-item strong {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>💳 Payment History</h1>
+        <a href="/user">← Back to Dashboard</a>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h2>Your Payment Transactions</h2>
+            <p>View all your payments for memberships and facilities</p>
+        </div>
+        
+        <div class="user-info">
+            <p>👤 <strong>{{ user.full_name }}</strong> (ID: <strong>{{ user.cms_id }}</strong>)</p>
+            {% if period_start and period_end %}
+                <p style="margin-top: 8px; color: #7f8c8d; font-size: 13px;">
+                    Payment Period: <strong>{{ period_start }}</strong> to <strong>{{ period_end }}</strong>
+                </p>
+            {% endif %}
+        </div>
+        
+        {% if payments %}
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Payment Type</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Transaction ID</th>
+                            <th>Payment Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payment in payments %}
+                            <tr>
+                                <td>
+                                    <span class="payment-type 
+                                        {% if payment.payment_type == 'membership' %}
+                                            type-membership
+                                        {% else %}
+                                            type-facility
+                                        {% endif %}">
+                                        {{ payment.payment_type|upper }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if payment.payment_type == 'membership' %}
+                                        Monthly Membership Fee
+                                    {% else %}
+                                        {{ payment.description if payment.description else 'Facility Access' }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="amount">Rs. {{ "%.2f"|format(payment.amount) }}</span>
+                                </td>
+                                <td>
+                                    <span class="transaction-id">{{ payment.transaction_id }}</span>
+                                </td>
+                                <td>{{ payment.payment_date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="summary">
+                <h3>📊 Payment Summary</h3>
+                
+                <div class="summary-item">
+                    <span>Total Membership Payments:</span>
+                    <strong>Rs. {{ "%.2f"|format(membership_total) }}</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Total Facility Payments:</span>
+                    <strong>Rs. {{ "%.2f"|format(facility_total) }}</strong>
+                </div>
+                <div class="summary-item" style="border: none; padding: 15px 0; font-size: 16px;">
+                    <span>Total Spent:</span>
+                    <strong style="font-size: 18px;">Rs. {{ "%.2f"|format(all_total) }}</strong>
+                </div>
+            </div>
+        {% else %}
+            <div class="empty-message">
+                <p>💰 No payment history yet</p>
+                <p style="font-size: 13px; color: #95a5a6;">You haven't made any payments. Purchase a membership to get started.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

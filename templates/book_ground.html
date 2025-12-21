@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book {{ ground.name }} - NUST Sports Complex</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ecf0f1;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+        
+        .help-text {
+            color: #95a5a6;
+            font-size: 13px;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        
+        .error-message {
+            background: #fadbd8;
+            color: #c0392b;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-submit {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-cancel {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+        
+        .btn-cancel:hover {
+            background: #bdc3c7;
+        }
+        
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+        }
+        
+        .info-box p {
+            color: #2c3e50;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .ground-name {
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .time-slot {
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #ecf0f1;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .time-slot:hover {
+            border-color: #3498db;
+            background: #e8f4f8;
+        }
+        
+        .time-slot.selected {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚽ Book {{ ground.name }}</h1>
+            <p>Select your preferred date and time</p>
+        </div>
+        
+        {% if error %}
+            <div class="error-message">
+                ⚠️ {{ error }}
+            </div>
+        {% endif %}
+        
+        <div class="info-box">
+            <p>You are booking the <span class="ground-name">{{ ground.name }}</span> ground. Please select an available date and time slot.</p>
+        </div>
+        
+        <form method="POST" action="/book_ground/{{ ground.id }}">
+            <div class="form-group">
+                <label for="booking_date">📅 Select Date</label>
+                <input 
+                    type="date" 
+                    id="booking_date" 
+                    name="booking_date" 
+                    required
+                    min="{{ today }}"
+                >
+                <div class="help-text">Choose a future date for your booking</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="booking_time">🕐 Select Time</label>
+                <select id="booking_time" name="booking_time" required>
+                    <option value="">-- Select a time --</option>
+                    <option value="06:00">6:00 AM</option>
+                    <option value="07:00">7:00 AM</option>
+                    <option value="08:00">8:00 AM</option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="12:00">12:00 PM</option>
+                    <option value="13:00">1:00 PM</option>
+                    <option value="14:00">2:00 PM</option>
+                    <option value="15:00">3:00 PM</option>
+                    <option value="16:00">4:00 PM</option>
+                    <option value="17:00">5:00 PM</option>
+                    <option value="18:00">6:00 PM</option>
+                    <option value="19:00">7:00 PM</option>
+                    <option value="20:00">8:00 PM</option>
+                    <option value="21:00">9:00 PM</option>
+                </select>
+                <div class="help-text">Pick your preferred time slot</div>
+            </div>
+            
+            <div class="button-group">
+                <a href="/grounds" class="btn btn-cancel" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Back</a>
+                <button type="submit" class="btn btn-submit">Confirm Booking</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // Set minimum date to today
+        document.getElementById('booking_date').min = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html>

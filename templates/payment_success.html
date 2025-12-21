@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - NUST Sports Complex</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .success-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 550px;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 40px;
+        }
+        
+        .success-header h1 {
+            color: #1a1a1a;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .success-header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .transaction-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ecf0f1 100%);
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .transaction-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .transaction-row:last-child {
+            margin-bottom: 0;
+            border-top: 2px solid white;
+            padding-top: 20px;
+        }
+        
+        .transaction-label {
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+        
+        .transaction-value {
+            color: #1a1a1a;
+            font-weight: 600;
+            word-break: break-all;
+            text-align: right;
+        }
+        
+        .transaction-id-section {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .transaction-id-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .transaction-id-value {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .confirmation-details {
+            background: #d5f4e6;
+            border-left: 5px solid #27ae60;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .confirmation-details h3 {
+            color: #229954;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .confirmation-details p {
+            color: #229954;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #7f8c8d;
+        }
+        
+        .btn-secondary:hover {
+            background: #bdc3c7;
+            transform: translateY(-2px);
+        }
+        
+        .support-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 600px) {
+            .success-container {
+                padding: 30px 20px;
+            }
+            
+            .transaction-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .transaction-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">✓</div>
+        
+        <div class="success-header">
+            <h1>Payment Successful!</h1>
+            <p>NUST Sports Complex</p>
+        </div>
+        
+        <div class="transaction-id-section">
+            <div class="transaction-id-label">Your Transaction ID</div>
+            <div class="transaction-id-value">{{ transaction_id }}</div>
+            <button class="copy-btn" onclick="copyToClipboard('{{ transaction_id }}')">📋 Copy Transaction ID</button>
+        </div>
+        
+        <div class="transaction-card">
+            <div class="transaction-row">
+                <span class="transaction-label">Payment Type:</span>
+                <span class="transaction-value">{{ payment_type }}</span>
+            </div>
+            
+            <div class="transaction-row">
+                <span class="transaction-label">Description:</span>
+                <span class="transaction-value">{{ description }}</span>
+            </div>
+            
+            <div class="transaction-row">
+                <span class="transaction-label">Amount Paid:</span>
+                <span class="transaction-value">₹ {{ amount }}</span>
+            </div>
+            
+            <div class="transaction-row">
+                <span class="transaction-label">Date & Time:</span>
+                <span class="transaction-value">
+                    {% now "utc" %}
+                        {{ now.strftime('%Y-%m-%d %H:%M:%S') }}
+                    {% endnow %}
+                </span>
+            </div>
+            
+            <div class="transaction-row">
+                <span class="transaction-label">Status:</span>
+                <span class="transaction-value" style="color: #27ae60;">✓ Completed</span>
+            </div>
+        </div>
+        
+        <div class="confirmation-details">
+            <h3>📬 Confirmation Sent</h3>
+            <p>A detailed receipt has been sent to your registered email address. Please save your transaction ID for future reference and support inquiries.</p>
+        </div>
+        
+        <div class="button-group">
+            <a href="/user" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+        
+        <div class="support-info">
+            <p>Need help? Contact our support team at: <strong>support@nustsports.com</strong></p>
+            <p style="margin-top: 8px;">Keep your transaction ID handy for future reference.</p>
+        </div>
+    </div>
+    
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Transaction ID copied to clipboard!');
+            }).catch(function(err) {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
